@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with PDF</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal&display=swap" rel="stylesheet">  
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+</head>
+<body>
+    <div class="pdf-container">
+        <div class="sidebar">
+            <h2>PDF Files</h2>
+            <ul>
+                {% for pdf in uploaded_pdfs %}
+                    <li>{{ pdf }}</li>
+                {% endfor %}
+            </ul>
+            <form action="{{ url_for('upload_files') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="pdf_docs" multiple>
+                <button class="custom-button" type="submit">Upload PDFs</button>
+            </form>
+        </div>
+        <div class="main-content">
+    <div class="chat-container">
+        <div class="header-container">
+            <h1>Chat about your PDFs</h1>
+            <img src="{{ url_for('static', filename='images/favicon.png') }}" alt="Icon">
+        </div>
+        <input type="text" id="user-input" class="chat-input" placeholder="Type a message..." onkeypress="checkEnter(event)">
+        <div id="chat-box" class="chat-box">
+            {% for entry in chat_history %}
+            <div class="chat-message {{ entry.sender }}">
+                <div class="avatar">
+                    <img src="{{ url_for('static', filename='images/' + (entry.sender + '.png')) }}">
+                </div>
+                <div class="message">{{ entry.message }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <!--<input type="text" id="user-input" class="chat-input" placeholder="Type a message..." onkeypress="checkEnter(event)">-->
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
